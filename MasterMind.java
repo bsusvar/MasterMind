@@ -12,14 +12,22 @@ public class MasterMind {
 		System.out.println("¡Bienvenido/a! ¿Te atreves a desafiar a la mente maestra?");
 
 		// Establecimiento de la longitud del código por el usuario
+		Scanner input = new Scanner(System.in);
+
 		int longitudCodigo;
 		do {
-			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 9 dígitos): ");
-			Scanner input = new Scanner(System.in);
+			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 10 dígitos): ");
 			longitudCodigo = input.nextInt();
-		} while (longitudCodigo < 4 || longitudCodigo > 9);
+		} while (longitudCodigo < 4 || longitudCodigo > 10);
 
-		// Confirmación de longitud del código
+		// Establecimiento del número de intentos por el usuario
+		int contadorIntentos;
+		do {
+			System.out.println("Indica cuántos intentos quieres tener (máximo 10): ");
+			contadorIntentos = input.nextInt();
+		} while (contadorIntentos > 10);
+
+		// Confirmación de establecimiento de ambos parámetros
 		System.out.println("Todo listo. ¡Comenzamos!: ");
 
 		// Bucle que realiza la partida siempre que el usuario quiera continuar
@@ -31,13 +39,13 @@ public class MasterMind {
 
 			// Comprobación de la respuesta del usuario
 			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos: ");
-			int contadorIntentos = 10;
+			input = new Scanner(System.in);
+
 			char[] codigoUsuario;
 
 			// Bucle que crea intentos siempre que el usuario no haya ganado o se haya
 			// quedado sin intentos
 			do {
-				Scanner input = new Scanner(System.in);
 				String inputUsuario = input.nextLine();
 				contadorIntentos--;
 
@@ -71,7 +79,7 @@ public class MasterMind {
 	private static char[] mezclarNumeros(int longitudCodigo) {
 
 		// Creación de un String con los números
-		String lista = ("123456789");
+		String lista = ("0123456789");
 		char[] codigo = lista.toCharArray();
 
 		// Mezcla aleatoria de los números (caracteres) del array intercambiando sus
