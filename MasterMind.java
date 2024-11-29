@@ -8,11 +8,10 @@ public class MasterMind {
 
 	public static void main(String[] args) {
 
-		String respuestaUsuario = "s";
-		// Bucle que realiza la partida siempre que el usuario quiera continuar
-		// escribiendo 's' (sí)
-
+		// Inicio de la partida
 		System.out.println("¡Bienvenido/a! ¿Te atreves a desafiar a la mente maestra?");
+
+		// Establecimiento de la longitud del código por el usuario
 		int longitudCodigo;
 		do {
 			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 9 dígitos): ");
@@ -22,16 +21,21 @@ public class MasterMind {
 
 		// Confirmación de longitud del código
 		System.out.println("Todo listo. ¡Comenzamos!: ");
+
+		// Bucle que realiza la partida siempre que el usuario quiera continuar
+		// escribiendo 's' (sí)
+		String respuestaUsuario = "s";
 		do {
-
+			// Uso del método que combina los números que se van a jugar
 			char[] codigoSecreto = mezclarNumeros(longitudCodigo);
-
-			// Introducción al juego
 
 			// Comprobación de la respuesta del usuario
 			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos: ");
 			int contadorIntentos = 10;
 			char[] codigoUsuario;
+
+			// Bucle que crea intentos siempre que el usuario no haya ganado o se haya
+			// quedado sin intentos
 			do {
 				Scanner input = new Scanner(System.in);
 				String inputUsuario = input.nextLine();
@@ -64,7 +68,6 @@ public class MasterMind {
 	}
 
 	// Método para mezclar los números
-
 	private static char[] mezclarNumeros(int longitudCodigo) {
 
 		// Creación de un String con los números
@@ -85,8 +88,6 @@ public class MasterMind {
 
 		// Selección de los 4 dígitos del código secreto
 		char[] codigoSecreto = Arrays.copyOfRange(codigo, 0, longitudCodigo);
-		// System.out.println(codigoSecreto);
-
 		return codigoSecreto;
 	}
 
