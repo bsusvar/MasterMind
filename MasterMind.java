@@ -13,19 +13,27 @@ public class MasterMind {
 		// escribiendo 's' (sí)
 
 		System.out.println("¡Bienvenido/a! ¿Te atreves a desafiar a la mente maestra?");
+		int longitudCodigo;
+		do {
+			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 9 dígitos): ");
+			Scanner input = new Scanner(System.in);
+			longitudCodigo = input.nextInt();
+		} while (longitudCodigo < 4 || longitudCodigo > 9);
 
+		// Confirmación de longitud del código
+		System.out.println("Todo listo. ¡Comenzamos!: ");
 		do {
 
-			char[] codigoSecreto = mezclarNumeros();
+			char[] codigoSecreto = mezclarNumeros(longitudCodigo);
 
 			// Introducción al juego
-			Scanner input = new Scanner(System.in);
 
 			// Comprobación de la respuesta del usuario
-			System.out.println("Intenta adivinar los 4 dígitos secretos: ");
+			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos: ");
 			int contadorIntentos = 10;
 			char[] codigoUsuario;
 			do {
+				Scanner input = new Scanner(System.in);
 				String inputUsuario = input.nextLine();
 				contadorIntentos--;
 
@@ -57,7 +65,7 @@ public class MasterMind {
 
 	// Método para mezclar los números
 
-	private static char[] mezclarNumeros() {
+	private static char[] mezclarNumeros(int longitudCodigo) {
 
 		// Creación de un String con los números
 		String lista = ("123456789");
@@ -76,7 +84,7 @@ public class MasterMind {
 		}
 
 		// Selección de los 4 dígitos del código secreto
-		char[] codigoSecreto = Arrays.copyOfRange(codigo, 0, 4);
+		char[] codigoSecreto = Arrays.copyOfRange(codigo, 0, longitudCodigo);
 		// System.out.println(codigoSecreto);
 
 		return codigoSecreto;
@@ -149,7 +157,8 @@ public class MasterMind {
 
 		// Fin de la partida (usuario sin intentos restantes)
 		else if (usuarioSinIntentos(contadorIntentos) == false) {
-			System.out.println("Te has quedado sin intentos. ");
+			String codigoSolucion = new String(codigoSecreto);
+			System.out.println("Te has quedado sin intentos. La combinación correcta era " + codigoSolucion + ".");
 		}
 		System.out.println("¿Quieres jugar otra partida? Escribe 's' (sí) o 'n' (no): ");
 		String respuestaUsuario = input.nextLine();
