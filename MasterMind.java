@@ -11,34 +11,35 @@ public class MasterMind {
 		// Inicio de la partida
 		System.out.println("¡Bienvenido/a! ¿Te atreves a desafiar a la mente maestra?");
 
-		// Establecimiento de la longitud del código por el usuario
-		Scanner input = new Scanner(System.in);
-
-		int longitudCodigo;
-		do {
-			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 10 dígitos): ");
-			longitudCodigo = input.nextInt();
-		} while (longitudCodigo < 4 || longitudCodigo > 10);
-
-		// Establecimiento del número de intentos por el usuario
-		int contadorIntentos;
-		do {
-			System.out.println("Indica cuántos intentos quieres tener (máximo 10): ");
-			contadorIntentos = input.nextInt();
-		} while (contadorIntentos > 10);
-
-		// Confirmación de establecimiento de ambos parámetros
-		System.out.println("Todo listo. ¡Comenzamos!: ");
-
 		// Bucle que realiza la partida siempre que el usuario quiera continuar
 		// escribiendo 's' (sí)
 		String respuestaUsuario = "s";
 		do {
+
+			// Establecimiento de la longitud del código por el usuario
+			Scanner input = new Scanner(System.in);
+			int longitudCodigo;
+
+			do {
+				System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 10 dígitos): ");
+				longitudCodigo = pedirDigitosUsuario();
+			} while (longitudCodigo < 4 || longitudCodigo > 10);
+
+			// Establecimiento del número de intentos por el usuario
+			int contadorIntentos;
+			do {
+				System.out.println("Indica cuántos intentos quieres tener (máximo 10): ");
+				contadorIntentos = pedirDigitosUsuario();
+			} while (contadorIntentos < 1 || contadorIntentos > 10);
+
+			// Confirmación de establecimiento de ambos parámetros
+			System.out.println("Todo listo. ¡Comenzamos!: ");
+
 			// Uso del método que combina los números que se van a jugar
 			char[] codigoSecreto = mezclarNumeros(longitudCodigo);
 
 			// Comprobación de la respuesta del usuario
-			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos: ");
+			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos. ");
 			input = new Scanner(System.in);
 
 			char[] codigoUsuario;
@@ -46,7 +47,12 @@ public class MasterMind {
 			// Bucle que crea intentos siempre que el usuario no haya ganado o se haya
 			// quedado sin intentos
 			do {
-				String inputUsuario = input.nextLine();
+				String inputUsuario;
+				do {
+					System.out.println("Escribe tu combinación: ");
+					inputUsuario = input.nextLine();
+				} while (inputUsuario.length() < longitudCodigo || inputUsuario.length() > longitudCodigo
+						|| comprobarCadenaSoloDigitos(inputUsuario) == false);
 				contadorIntentos--;
 
 				// Eliminación de los posibles espacios que pueda escribir el usuario
@@ -63,7 +69,7 @@ public class MasterMind {
 						+ contarCercanos(codigoUsuarioInt, codigoSecretoInt));
 
 				if (!usuarioGanador(codigoUsuario, codigoSecreto) && usuarioSinIntentos(contadorIntentos)) {
-					System.out.println("Te quedan " + contadorIntentos + " intentos: ");
+					System.out.println("Te quedan " + contadorIntentos + " intentos. ");
 				}
 
 			} while (!usuarioGanador(codigoUsuario, codigoSecreto) && usuarioSinIntentos(contadorIntentos));
@@ -72,7 +78,31 @@ public class MasterMind {
 			respuestaUsuario = generarFinPartida(codigoUsuario, codigoSecreto, contadorIntentos);
 		}
 
-		while (respuestaUsuario.equals("s"));
+		while (respuestaUsuario.toLowerCase().equals("s"));
+	}
+
+	// Método que recorre la respuesta del usuario y devuelve un resultado booleano
+	private static boolean comprobarCadenaSoloDigitos(String respuestaUsuario) {
+		for (int i = 0; i < respuestaUsuario.length(); i++) {
+			if (respuestaUsuario.charAt(i) < 48 || respuestaUsuario.charAt(i) > 57) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	// Método para comprobar si el usuario ha introducido solo números y no letras
+	// (a partir del método booleano anterior)
+	private static int pedirDigitosUsuario() {
+		Scanner input = new Scanner(System.in);
+		String respuestaUsuarioString = input.nextLine();
+		while (comprobarCadenaSoloDigitos(respuestaUsuarioString) == false) {
+			System.out.println("Tu respuesta (" + respuestaUsuarioString
+					+ ") no es válida porque no contiene únicamente números. Inténtalo de nuevo: ");
+			respuestaUsuarioString = input.nextLine();
+		}
+		int respuestaUsuarioInt = Integer.parseInt(respuestaUsuarioString);
+		return respuestaUsuarioInt;
 	}
 
 	// Método para mezclar los números
@@ -169,9 +199,12 @@ public class MasterMind {
 			String codigoSolucion = new String(codigoSecreto);
 			System.out.println("Te has quedado sin intentos. La combinación correcta era " + codigoSolucion + ".");
 		}
-		System.out.println("¿Quieres jugar otra partida? Escribe 's' (sí) o 'n' (no): ");
-		String respuestaUsuario = input.nextLine();
-		respuestaUsuario.toLowerCase();
+
+		String respuestaUsuario;
+		do {
+			System.out.println("¿Quieres jugar otra partida? Escribe 's' (sí) o 'n' (no): ");
+			respuestaUsuario = input.nextLine();
+		} while (!respuestaUsuario.toLowerCase().equals("s") && !respuestaUsuario.toLowerCase().equals("n"));
 		if (respuestaUsuario.equals("n")) {
 			System.out.println("Vale, ¡hasta la próxima partida! :-)");
 		}
