@@ -20,16 +20,24 @@ public class MasterMind {
 			Scanner input = new Scanner(System.in);
 			int longitudCodigo;
 
-			do {
-				System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 10 dígitos): ");
+			System.out.println("Indica la longitud del código secreto (mínimo de 4 y máximo de 10 dígitos): ");
+			do {				
 				longitudCodigo = pedirDigitosUsuario();
+				
+				if (longitudCodigo < 4 || longitudCodigo > 10) {
+					System.out.println("Tu respuesta (" + longitudCodigo + ") no es válida. Inténtalo de nuevo:");
+				}
 			} while (longitudCodigo < 4 || longitudCodigo > 10);
 
 			// Establecimiento del número de intentos por el usuario
 			int contadorIntentos;
-			do {
-				System.out.println("Indica cuántos intentos quieres tener (máximo 10): ");
+			System.out.println("Indica cuántos intentos quieres tener (máximo 10): ");
+			do {				
 				contadorIntentos = pedirDigitosUsuario();
+				
+				if (contadorIntentos < 1 || contadorIntentos > 10) {
+					System.out.println("Tu respuesta (" + contadorIntentos + ") no es válida. Inténtalo de nuevo:");
+				}
 			} while (contadorIntentos < 1 || contadorIntentos > 10);
 
 			// Confirmación de establecimiento de ambos parámetros
@@ -41,9 +49,8 @@ public class MasterMind {
 			// Comprobación de la respuesta del usuario
 			System.out.println("Intenta adivinar los " + longitudCodigo + " dígitos secretos. ");
 			input = new Scanner(System.in);
-
 			char[] codigoUsuario;
-
+			
 			// Bucle que crea intentos siempre que el usuario no haya ganado o se haya
 			// quedado sin intentos
 			do {
@@ -96,9 +103,9 @@ public class MasterMind {
 	private static int pedirDigitosUsuario() {
 		Scanner input = new Scanner(System.in);
 		String respuestaUsuarioString = input.nextLine();
-		while (comprobarCadenaSoloDigitos(respuestaUsuarioString) == false) {
+		while (respuestaUsuarioString.length() > 2 || comprobarCadenaSoloDigitos(respuestaUsuarioString) == false) {
 			System.out.println("Tu respuesta (" + respuestaUsuarioString
-					+ ") no es válida porque no contiene únicamente números. Inténtalo de nuevo: ");
+					+ ") no es válida. Inténtalo de nuevo: ");
 			respuestaUsuarioString = input.nextLine();
 		}
 		int respuestaUsuarioInt = Integer.parseInt(respuestaUsuarioString);
@@ -204,8 +211,8 @@ public class MasterMind {
 		do {
 			System.out.println("¿Quieres jugar otra partida? Escribe 's' (sí) o 'n' (no): ");
 			respuestaUsuario = input.nextLine();
-		} while (!respuestaUsuario.toLowerCase().equals("s") && !respuestaUsuario.toLowerCase().equals("n"));
-		if (respuestaUsuario.equals("n")) {
+		} while (!respuestaUsuario.equalsIgnoreCase("s") && !respuestaUsuario.equalsIgnoreCase("n"));
+		if (respuestaUsuario.equalsIgnoreCase("n")) {
 			System.out.println("Vale, ¡hasta la próxima partida! :-)");
 		}
 		return respuestaUsuario;
